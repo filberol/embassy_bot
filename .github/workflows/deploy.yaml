@@ -28,13 +28,12 @@ jobs:
         env:
           SERVER: ${{ secrets.SERVER }}
         run: |
-          docker save embassy_bot:latest | ssh -o StrictHostKeyChecking=no $SERVER 'docker load'
+          docker save embassy_bot:latest | ssh -o StrictHostKeyChecking=no -o LogLevel=ERROR $SERVER 'docker load'
       - name: Run container on home server
         env:
           SERVER: ${{ secrets.SERVER }}
         run: |
           ssh $SERVER '
             docker stop embassy_bot || true &&
-            docker rm embassy_bot || true &&
             docker run -d --env-file /envs/embassy_bot/.env --restart always --name embassy_bot embassy_bot:latest
           '
