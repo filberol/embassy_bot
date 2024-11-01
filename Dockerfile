@@ -5,4 +5,7 @@ COPY package*.json ./
 RUN npm install
 
 COPY . .
-CMD ["npm", "start"]
+
+ARG COMMIT_NAME="No commit info"
+ENV COMMIT_NAME=$COMMIT_NAME
+CMD ["npm", "docker"]

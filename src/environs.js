@@ -2,6 +2,7 @@ export const tg_bot_token = process.env.TELEGRAM_BOT_TOKEN;
 export const tg_bot_chat = process.env.TELEGRAM_BOT_CHAT;
 export const int_from = process.env.INT_FROM;
 export const int_to = process.env.INT_TO;
+export const commit_name = process.env.COMMIT_NAME;
 
 const businessId = "09250556-2450-437f-aede-82e78712f114"
 export const serviceIds =

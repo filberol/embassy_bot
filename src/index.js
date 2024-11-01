@@ -1,7 +1,7 @@
 console.log("Starting server");
 
 const TelegramBot = require('node-telegram-bot-api');
-const {tg_bot_token, tg_bot_chat, makeUrl, int_from, int_to, serviceIds} = require("./environs");
+const {tg_bot_token, tg_bot_chat, makeUrl, int_from, int_to, serviceIds, commit_name} = require("./environs");
 const {setRandomInterval} = require("./util");
 
 const bot = new TelegramBot(tg_bot_token, {polling: true});
@@ -9,7 +9,7 @@ const bot = new TelegramBot(tg_bot_token, {polling: true});
 let scanCount = 0;
 let lastScan = new Date();
 
-bot.sendMessage(tg_bot_chat, "Bot redeployed.").then()
+bot.sendMessage(tg_bot_chat, "Bot redeployed.\n Commit: " + commit_name).then()
 
 bot.on('text', async msg => {
     try {
