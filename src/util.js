@@ -30,3 +30,7 @@ export const setRandomInterval = (intervalFunction, minDelay, maxDelay) => {
         clear() { clearTimeout(timeout) },
     };
 };
+
+export function millisByMinutes(minutes) {
+    return minutes * 60 * 1000
+}

@@ -2,7 +2,7 @@ console.log("Starting server");
 
 const TelegramBot = require('node-telegram-bot-api');
 const {tg_bot_token, tg_bot_chat, makeUrl, int_from, int_to, serviceIds, commit_name} = require("./environs");
-const {setRandomInterval} = require("./util");
+const {setRandomInterval, millisByMinutes} = require("./util");
 
 const bot = new TelegramBot(tg_bot_token, {polling: true});
 
@@ -22,7 +22,7 @@ bot.on('text', async msg => {
 processRequest().then()
 setRandomInterval(async () => {
     await processRequest()
-}, int_from, int_to)
+}, millisByMinutes(int_from), millisByMinutes(int_to))
 
 async function processRequest() {
     const newDate = new Date();
