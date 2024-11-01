@@ -35,5 +35,6 @@ jobs:
         run: |
           ssh $SERVER '
             docker stop embassy_bot || true &&
+            docker rm embassy_bot || true &&
             docker run -d --env-file /envs/embassy_bot/.env --restart always --name embassy_bot embassy_bot:latest
           '
