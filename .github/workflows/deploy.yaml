@@ -28,7 +28,7 @@ jobs:
         env:
           SERVER: ${{ secrets.SERVER }}
         run: |
-          docker save embassy_bot:latest | ssh -o StrictHostKeyChecking=no $SERVER 'docker load'
+          docker save embassy_bot:latest | ssh -v -o StrictHostKeyChecking=no $SERVER 'docker load'
       - name: Run container on home server
         env:
           SERVERE: ${{ secrets.SERVER }}
