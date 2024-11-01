@@ -1,0 +1,39 @@
+name: Deploy to Server
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Build Docker image
+        run: |
+          docker build -t embassy_bot:latest .
+      - name: Add private key
+        env:
+          SSH_KEY: ${{ secrets.SSH_KEY }}
+        run: |
+          echo $SSH_KEY > $HOME/.ssh/id_rsa.pub
+      - name: Push Docker image to home server
+        env:
+          SERVER_NAME: ${{ secrets.SERVER_NAME }}
+          SERVER_HOST: ${{ secrets.SERVER_HOST }}
+        run: |
+          docker save embassy_bot:latest -o embassy.tar | scp embassy.tar $SERVER_NAME@$SERVER_HOST:/tmp:
+      - name: Run container on home server
+        env:
+          SERVER_NAME: ${{ secrets.SERVER_NAME }}
+          SERVER_HOST: ${{ secrets.SERVER_HOST }}
+        run: |
+          ssh $SERVER_NAME@$SERVER_HOST '
+            docker stop embassy_bot || true &&
+            docker rm embassy_bot || true &&
+            docker load -i /tmp/embassy.tar &&
+            docker run -d --restart always --name embassy_bot embassy_bot:latest
+          '
