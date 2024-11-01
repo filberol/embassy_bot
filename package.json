@@ -1,0 +1,12 @@
+{
+  "name": "untitled",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node --env-file=env/local.env src/index.js",
+    "docker": "node --env-file=env/docker.env src/index.js"
+  },
+  "dependencies": {
+    "node-telegram-bot-api": "^0.66.0"
+  }
+}
