@@ -40,6 +40,7 @@ async function processRequest() {
                 const message = `${newDate.toISOString()}: Failed to fetch data. Response not ok.`
                 console.log(message);
                 await bot.sendMessage(tg_bot_chat, message);
+                return
             }
 
             const json = await response.json();
