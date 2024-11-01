@@ -8,4 +8,4 @@ COPY . .
 
 ARG COMMIT_NAME="No commit info"
 ENV COMMIT_NAME=$COMMIT_NAME
-CMD ["npm", "run docker"]
+CMD ["npm", "run", "docker"]
