@@ -18,20 +18,21 @@ jobs:
       - name: Add private key
         env:
           SSH_KEY: ${{ secrets.SSH_KEY }}
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         run: |
-         mkdir $HOME/.ssh/ && echo $SSH_KEY > $HOME/.ssh/id_rsa.pub
+          mkdir $HOME/.ssh/ &&
+          echo $SSH_KEY > $HOME/.ssh/id_rsa.pub &&
+          echo $SSH_PRIVATE_KEY > $HOME/.ssh/id_rsa
       - name: Push Docker image to home server
         env:
-          SERVER_NAME: ${{ secrets.SERVER_NAME }}
-          SERVER_HOST: ${{ secrets.SERVER_HOST }}
+          SERVER: ${{ secrets.SERVER }}
         run: |
-          docker save embassy_bot:latest | ssh -v -o StrictHostKeyChecking=no $SERVER_NAME@$SERVER_HOST 'docker load'
+          docker save embassy_bot:latest | ssh -v -o StrictHostKeyChecking=no $SERVER 'docker load'
       - name: Run container on home server
         env:
-          SERVER_NAME: ${{ secrets.SERVER_NAME }}
-          SERVER_HOST: ${{ secrets.SERVER_HOST }}
+          SERVERE: ${{ secrets.SERVER }}
         run: |
-          ssh -o StrictHostKeyChecking=no $SERVER_NAME@$SERVER_HOST '
+          ssh $SERVER '
             docker stop embassy_bot || true &&
             docker rm embassy_bot || true &&
             docker run -d --env-file /envs/embassy_bot/.env --restart always --name embassy_bot embassy_bot:latest
