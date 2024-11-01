@@ -25,7 +25,7 @@ jobs:
           SERVER_NAME: ${{ secrets.SERVER_NAME }}
           SERVER_HOST: ${{ secrets.SERVER_HOST }}
         run: |
-          docker save embassy_bot:latest -o embassy.tar | scp embassy.tar $SERVER_NAME@$SERVER_HOST:/tmp:
+          docker save embassy_bot:latest | ssh $SERVER_USER@$SERVER_HOST 'docker load'
       - name: Run container on home server
         env:
           SERVER_NAME: ${{ secrets.SERVER_NAME }}
