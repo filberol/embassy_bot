@@ -28,23 +28,25 @@ async function processRequest() {
     const newDate = new Date();
     console.log("Requesting data from " + newDate.toISOString());
     const nextYear = new Date();
-    nextYear.setFullYear(nextYear.getMonth() + 8);
+    nextYear.setFullYear(nextYear.getFullYear() + 1);
 
     const services = Object.keys(serviceIds)
     for (let serviceIdx = 0; serviceIdx < services.length; serviceIdx++) {
         try {
+            const serviceName = services[serviceIdx];
             const response = await fetch(
-                makeUrl(newDate.toISOString(), nextYear.toISOString(), serviceIds[services[serviceIdx]])
+                makeUrl(newDate.toISOString(), nextYear.toISOString(), serviceIds[serviceName])
             );
             if (!response.ok) {
-                const message = `${newDate.toISOString()}: Failed to fetch data. Response not ok.`
+                const message = `${newDate.toISOString()}: Failed to fetch data for ${serviceName}. Response not ok.`
                 console.log(message);
+                console.log(response)
                 await bot.sendMessage(tg_bot_chat, message);
                 return
             }
 
             const json = await response.json();
-            await processJson(services[serviceIdx], json.data)
+            await processJson(serviceName, json.data)
         } catch (error) {
             console.error(error.message);
             await bot.sendMessage(tg_bot_chat, "Failed to fetch data with exception:\n" + error.message);
