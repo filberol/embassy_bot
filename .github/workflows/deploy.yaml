@@ -19,7 +19,7 @@ jobs:
         env:
           SSH_KEY: ${{ secrets.SSH_KEY }}
         run: |
-          echo $SSH_KEY > $HOME/.ssh/id_rsa.pub
+         mkdir /home/$HOME/.ssh/ && echo $SSH_KEY > $HOME/.ssh/id_rsa.pub
       - name: Push Docker image to home server
         env:
           SERVER_NAME: ${{ secrets.SERVER_NAME }}
