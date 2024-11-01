@@ -22,12 +22,13 @@ jobs:
         run: |
           mkdir $HOME/.ssh/ &&
           echo $SSH_KEY > $HOME/.ssh/id_rsa.pub &&
-          echo $SSH_PRIVATE_KEY > $HOME/.ssh/id_rsa
+          echo $SSH_PRIVATE_KEY > $HOME/.ssh/id_rsa &&
+          chmod 600 $HOME/.ssh/id_rsa
       - name: Push Docker image to home server
         env:
           SERVER: ${{ secrets.SERVER }}
         run: |
-          docker save embassy_bot:latest | ssh -v -o StrictHostKeyChecking=no $SERVER 'docker load'
+          docker save embassy_bot:latest | ssh -o StrictHostKeyChecking=no $SERVER 'docker load'
       - name: Run container on home server
         env:
           SERVERE: ${{ secrets.SERVER }}
