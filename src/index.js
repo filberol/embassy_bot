@@ -73,5 +73,7 @@ async function processJson(serviceName, result) {
             message += availableBooking[j].attributes.date + "\n"
         }
     }
-    await bot.sendMessage(tg_bot_chat, message)
+    if (availableBooking.length > 0) {
+        await bot.sendMessage(tg_bot_chat, message)
+    }
 }
